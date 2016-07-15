@@ -1,11 +1,12 @@
 package com.gladheim.marvel.series.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by destivar on 17/06/16.
  */
-public class Serie {
+public class Serie implements Serializable{
 
     private String title;
     private String thumbnail;
@@ -13,6 +14,7 @@ public class Serie {
     private int endYear;
     private List<String> characters;
     private String description;
+    private int id;
 
     public String getTitle() {
         return title;
@@ -56,5 +58,13 @@ public class Serie {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

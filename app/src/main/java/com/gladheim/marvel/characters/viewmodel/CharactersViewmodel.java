@@ -1,34 +1,35 @@
-package com.gladheim.marvel.series.viewmodel;
+package com.gladheim.marvel.characters.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
-import com.android.databinding.library.baseAdapters.BR;
+import com.gladheim.marvel.BR;
+import com.gladheim.marvel.characters.adapter.CharactersAdapter;
+import com.gladheim.marvel.characters.model.Characters;
 import com.gladheim.marvel.global.listener.ModelUpdateListener;
-import com.gladheim.marvel.series.adapter.SeriesAdapter;
-import com.gladheim.marvel.series.model.Series;
 
 /**
- * Created by destivar on 17/06/16.
+ * Created by destivar on 12/07/16.
  */
-public class SeriesViewmodel extends BaseObservable implements ModelUpdateListener<Series>  {
+public class CharactersViewmodel extends BaseObservable implements ModelUpdateListener<Characters> {
 
-    private SeriesAdapter adapter;
+    private CharactersAdapter adapter;
     private boolean loading;
     private boolean lastPage;
     private int currentPage;
 
     private int progressVisibility = View.VISIBLE;
 
-    public SeriesViewmodel(){
-        adapter = new SeriesAdapter();
+    public CharactersViewmodel(){
+        adapter = new CharactersAdapter();
         currentPage = 0;
     }
 
     @Override
-    public void onModelChanged(Series model) {
-        adapter.addSeries(model.getSeries());
+    public void onModelChanged(Characters model) {
+        if ( model == null ) return;
+        adapter.addCharacters(model.getCharacters());
         progressVisibility = View.GONE;
         notifyPropertyChanged(BR.progressVisibility);
     }
@@ -43,7 +44,7 @@ public class SeriesViewmodel extends BaseObservable implements ModelUpdateListen
         error.equals(null);
     }
 
-    public SeriesAdapter getAdapter() {
+    public CharactersAdapter getAdapter() {
         return adapter;
     }
 
@@ -75,7 +76,8 @@ public class SeriesViewmodel extends BaseObservable implements ModelUpdateListen
         currentPage++;
     }
 
-    public void setOnItemClick(SeriesAdapter.OnItemClickListener onItemClick) {
+    public void setOnItemClick(CharactersAdapter.OnItemClickListener onItemClick) {
         adapter.setOnItemClickListener(onItemClick);
     }
+
 }

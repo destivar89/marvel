@@ -9,4 +9,7 @@ public class MarvelAPICharactersData extends MarvelAPIData {
 
     private List<MarvelAPICharacter> results;
 
+    public List<MarvelAPICharacter> getResults() {
+        return results;
+    }
 }

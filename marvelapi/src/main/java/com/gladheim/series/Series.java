@@ -1,6 +1,6 @@
 package com.gladheim.series;
 
-import com.gladheim.data.MarvelAPIResponse;
+import com.gladheim.data.MarvelAPISeriesResponse;
 
 import retrofit2.Call;
 
@@ -9,6 +9,6 @@ import retrofit2.Call;
  */
 public interface Series {
 
-    Call<MarvelAPIResponse> series(int offset );
+    Call<MarvelAPISeriesResponse> series( int offset );
 
 }

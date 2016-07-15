@@ -1,7 +1,9 @@
 package com.gladheim.marvel.api;
 
 import com.gladheim.MarvelAPI;
-import com.gladheim.data.MarvelAPIResponse;
+import com.gladheim.data.MarvelAPICharactersResponse;
+import com.gladheim.data.MarvelAPISeriesResponse;
+import com.gladheim.marvel.characters.model.Characters;
 import com.gladheim.marvel.global.listener.ModelUpdateListener;
 import com.gladheim.marvel.series.model.Series;
 
@@ -22,16 +24,33 @@ public class MarvelApiManager {
 
     public void retrieveSeries(int offset, final ModelUpdateListener<Series> seriesModelUpdateListener ){
 
-        Call<MarvelAPIResponse> call = marvelAPI.series( offset );
-        call.enqueue(new Callback<MarvelAPIResponse>() {
+        Call<MarvelAPISeriesResponse> call = marvelAPI.series( offset );
+        call.enqueue(new Callback<MarvelAPISeriesResponse>() {
             @Override
-            public void onResponse(Call<MarvelAPIResponse> call, Response<MarvelAPIResponse> response) {
+            public void onResponse(Call<MarvelAPISeriesResponse> call, Response<MarvelAPISeriesResponse> response) {
                 seriesModelUpdateListener.onModelChanged( MarvelDataMapper.mapSeriesFromMarvelApi( response.body() ) );
             }
 
             @Override
-            public void onFailure(Call<MarvelAPIResponse> call, Throwable t) {
+            public void onFailure(Call<MarvelAPISeriesResponse> call, Throwable t) {
                 seriesModelUpdateListener.onModelError( t.getMessage() );
+            }
+        });
+
+    }
+
+    public void retrieveCharacters(int id, int offset, final ModelUpdateListener<Characters> charactersModelUpdateListener ){
+
+        Call<MarvelAPICharactersResponse> call = marvelAPI.characters( id, offset );
+        call.enqueue(new Callback<MarvelAPICharactersResponse>() {
+            @Override
+            public void onResponse(Call<MarvelAPICharactersResponse> call, Response<MarvelAPICharactersResponse> response) {
+                charactersModelUpdateListener.onModelChanged( MarvelDataMapper.mapCharactersFromMarvelApi( response.body() ) );
+            }
+
+            @Override
+            public void onFailure(Call<MarvelAPICharactersResponse> call, Throwable t) {
+                charactersModelUpdateListener.onModelError( t.getMessage() );
             }
         });
 

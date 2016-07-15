@@ -1,6 +1,6 @@
 package com.gladheim.characters;
 
-import com.gladheim.data.MarvelAPICharactersData;
+import com.gladheim.data.MarvelAPICharactersResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -14,6 +14,6 @@ import retrofit2.http.Query;
 public interface CharacterService {
 
     @GET("/v1/public/characters/{id}")
-    Call<MarvelAPICharactersData> character(@Path("id") String id, @Query("apikey") String apikey );
+    Call<MarvelAPICharactersResponse> characters(@Path("id") String id, @Query("offset") String offset, @Query("apikey") String apikey, @Query("ts") String ts, @Query("hash") String hash );
 
 }

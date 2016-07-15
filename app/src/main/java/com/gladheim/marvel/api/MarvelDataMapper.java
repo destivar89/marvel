@@ -1,11 +1,16 @@
 package com.gladheim.marvel.api;
 
+import com.gladheim.data.MarvelAPICharacter;
 import com.gladheim.data.MarvelAPICharacterLite;
 import com.gladheim.data.MarvelAPICharacters;
-import com.gladheim.data.MarvelAPIResponse;
+import com.gladheim.data.MarvelAPICharactersData;
+import com.gladheim.data.MarvelAPICharactersResponse;
 import com.gladheim.data.MarvelAPISerie;
 import com.gladheim.data.MarvelAPISeriesData;
+import com.gladheim.data.MarvelAPISeriesResponse;
 import com.gladheim.data.MarvelAPIThumbnail;
+import com.gladheim.marvel.characters.model.Character;
+import com.gladheim.marvel.characters.model.Characters;
 import com.gladheim.marvel.series.model.Serie;
 import com.gladheim.marvel.series.model.Series;
 
@@ -17,7 +22,7 @@ import java.util.List;
  */
 public class MarvelDataMapper {
 
-    public static Series mapSeriesFromMarvelApi( MarvelAPIResponse response ){
+    public static Series mapSeriesFromMarvelApi( MarvelAPISeriesResponse response ){
 
         Series series = new Series();
         MarvelAPISeriesData data = (MarvelAPISeriesData) response.getData();
@@ -39,13 +44,39 @@ public class MarvelDataMapper {
         serie.setStartYear( apiSerie.getStartYear() );
         serie.setEndYear( apiSerie.getEndYear() );
         serie.setDescription( apiSerie.getDescription() );
-        serie.setCharacters( mapCharactersFromMarvelApi( apiSerie.getCharacters() ) );
+        serie.setCharacters( mapCharactersLiteFromMarvelApi( apiSerie.getCharacters() ) );
+        serie.setId(apiSerie.getId());
 
         return serie;
 
     }
 
-    private static List<String> mapCharactersFromMarvelApi( MarvelAPICharacters apiCharacters ) {
+    public static Characters mapCharactersFromMarvelApi( MarvelAPICharactersResponse response ){
+
+        Characters characters = new Characters();
+        MarvelAPICharactersData data = (MarvelAPICharactersData) response.getData();
+
+        for (MarvelAPICharacter character : data.getResults() ){
+            characters.add(mapCharacterFromMarvelApi(character));
+        }
+
+        return characters;
+
+    }
+
+    private static Character mapCharacterFromMarvelApi( MarvelAPICharacter apiCharacter ) {
+
+        Character character = new Character();
+
+        character.setName(apiCharacter.getName());
+        character.setDescription(apiCharacter.getDescription());
+        character.setThumbnail( mapThumbNailFromMarvelApi( apiCharacter.getThumbnail() ) );
+
+        return character;
+
+    }
+
+    private static List<String> mapCharactersLiteFromMarvelApi(MarvelAPICharacters apiCharacters ) {
 
         List<String> characters = new ArrayList<>();
 

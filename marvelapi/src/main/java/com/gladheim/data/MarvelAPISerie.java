@@ -12,6 +12,7 @@ public class MarvelAPISerie {
     private String type;
     private MarvelAPIThumbnail thumbnail;
     private MarvelAPICharacters characters;
+    private int id;
 
     public String getTitle() {
         return title;
@@ -39,5 +40,9 @@ public class MarvelAPISerie {
 
     public MarvelAPICharacters getCharacters() {
         return characters;
+    }
+
+    public int getId() {
+        return id;
     }
 }

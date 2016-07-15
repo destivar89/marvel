@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Marvel</string>
+    <string name="serializable_serie">serializable_serie</string>
 </resources>

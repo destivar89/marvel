@@ -1,7 +1,9 @@
 package com.gladheim;
 
 import com.gladheim.characters.CharacterService;
-import com.gladheim.data.MarvelAPIResponse;
+import com.gladheim.characters.Characters;
+import com.gladheim.data.MarvelAPICharactersResponse;
+import com.gladheim.data.MarvelAPISeriesResponse;
 import com.gladheim.series.SerieService;
 import com.gladheim.series.Series;
 import com.gladheim.utils.CipherUtils;
@@ -10,7 +12,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MarvelAPI implements Series{
+public class MarvelAPI implements Series, Characters{
 
     public static final String ENDPOINT_MARVEL_API = "http://gateway.marvel.com/";
     public static final String APIKEY = "c89270d0e29b9285ba06a21186afd697";
@@ -34,7 +36,7 @@ public class MarvelAPI implements Series{
     }
 
     @Override
-    public Call<MarvelAPIResponse> series(int offset) {
+    public Call<MarvelAPISeriesResponse> series(int offset) {
 
         String hash = CipherUtils.md5(ts+SECRETKEY+APIKEY);
         String timestamp = String.valueOf(ts);
@@ -43,4 +45,13 @@ public class MarvelAPI implements Series{
 
     }
 
+    @Override
+    public Call<MarvelAPICharactersResponse> characters(int id, int offset) {
+
+        String hash = CipherUtils.md5(ts+SECRETKEY+APIKEY);
+        String timestamp = String.valueOf(ts);
+        ts++;
+        return charactersService.characters(String.valueOf(id) ,String.valueOf(offset), APIKEY, timestamp, hash);
+
+    }
 }
